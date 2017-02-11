@@ -1,0 +1,16 @@
+{
+  "name": "rxjsoperatortutorial",
+  "version": "1.0.0",
+  "description": "Example of the implementation of an operator for RxJs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Petru Badarau",
+  "license": "ISC",
+  "dependencies": {
+    "rxjs": "^5.1.0",
+    "typescript": "^2.1.6",
+    "typings": "^2.1.0"
+  }
+}
