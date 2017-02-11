@@ -57,7 +57,10 @@ class BufferWithTimerOrCountOperator<T> implements Observer<T> {
     private drain() : void {
             if(this.subscriber.closed) {
                 this.timer.stop();
+                return;
             }
+
+            if(this.list.length == 0) return; //no drain
 
             let list = this.list;
             this.list = new Array<T>(); //start new buffer
@@ -70,6 +73,7 @@ class BufferWithTimerOrCountOperator<T> implements Observer<T> {
             this.drain(); //drain firstly the existent values
         }
 
+        this.timer.stop();
         this.subscriber.error(err);
     }
 
@@ -78,6 +82,7 @@ class BufferWithTimerOrCountOperator<T> implements Observer<T> {
             this.drain(); //drain firstly the existent values
         }
 
+        this.timer.stop();
         this.subscriber.complete();
     }
 }
