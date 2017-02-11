@@ -21,16 +21,20 @@ class BufferWithTimerOrCountOperator<T> implements Observer<T> {
     public next(value: T): void {
         this.list.push(value);
         if(this.list.length >= this.bufferSize) {
+            this.drain();
+        }
+    }
+
+    private drain() : void {
             let list = this.list;
             this.list = new Array<T>(); //start new buffer
             this.subscriber.next(list); //send the full buffer
-        }
     }
 
 
     public error(err: any): void {
         if(this.list.length) {
-            this.subscriber.next(this.list); //send firstly the existent values
+            this.drain(); //drain firstly the existent values
         }
 
         this.subscriber.error(err);
@@ -38,7 +42,7 @@ class BufferWithTimerOrCountOperator<T> implements Observer<T> {
 
     public complete(): void {
         if(this.list.length) {
-            this.subscriber.next(this.list); //send firstly the existent values
+            this.drain(); //drain firstly the existent values
         }
 
         this.subscriber.complete();
