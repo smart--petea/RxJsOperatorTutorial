@@ -56,6 +56,7 @@ class BufferWithTimerOrCountOperator<T> implements Observer<T> {
 
     private drain() : void {
         if(this.subscriber.closed) {
+            this.closed = true;
             this.timer.stop();
             return;
         }
