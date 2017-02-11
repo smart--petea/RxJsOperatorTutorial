@@ -1,10 +1,11 @@
 import { Observable } from "rxjs/Observable";
 import { Observer } from "rxjs/Observer";
+import { Subscriber } from "rxjs/Subscriber";
 
 function bufferWithTimerOrCount<T>(): Observable<T> {
     //this is the Observable change by our operator
     let source: Observable<T> = this;
-    return Observable.create(subscriber => {
+    return Observable.create((subscriber: Subscriber<T>) => {
         source.subscribe( new BufferWithTimerOrCountOperator(subscriber) );
     });
 }
@@ -12,7 +13,7 @@ function bufferWithTimerOrCount<T>(): Observable<T> {
 class BufferWithTimerOrCountOperator<T> implements Observer<T> {
     closed: boolean = false; //the operator is open. If it is true, the oservable will not emit events to this subscriber
 
-    constructor(private subscriber) { }
+    constructor(private subscriber: Subscriber<T>) { }
 
     public next(value: T): void {
         this.subscriber.next(value);
